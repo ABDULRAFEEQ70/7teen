@@ -1,0 +1,19 @@
+{
+  "name": "hospital-management-system",
+  "version": "1.0.0",
+  "description": "Comprehensive hospital management web application",
+  "main": "server/index.js",
+  "scripts": {
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "server": "cd server && npm run dev",
+    "client": "cd client && npm start",
+    "build": "cd client && npm run build",
+    "install-all": "npm install && cd server && npm install && cd ../client && npm install"
+  },
+  "keywords": ["hospital", "management", "healthcare", "react", "nodejs"],
+  "author": "Hospital Management Team",
+  "license": "MIT",
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}
