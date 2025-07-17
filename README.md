@@ -54,6 +54,36 @@ CREATE TABLE IF NOT EXISTS appointments (
   created_at TIMESTAMPTZ DEFAULT now()
 );
 
+-- Staff table
+CREATE TABLE IF NOT EXISTS staff (
+  id SERIAL PRIMARY KEY,
+  first_name VARCHAR(80) NOT NULL,
+  last_name VARCHAR(80) NOT NULL,
+  role VARCHAR(50) NOT NULL,
+  phone VARCHAR(20),
+  email VARCHAR(120),
+  created_at TIMESTAMPTZ DEFAULT now()
+);
+
+-- Medical Records table
+CREATE TABLE IF NOT EXISTS medical_records (
+  id SERIAL PRIMARY KEY,
+  patient_id INT NOT NULL REFERENCES patients(id) ON DELETE CASCADE,
+  staff_id INT NOT NULL REFERENCES staff(id) ON DELETE SET NULL,
+  description TEXT NOT NULL,
+  created_at TIMESTAMPTZ DEFAULT now()
+);
+
+-- Invoices table
+CREATE TABLE IF NOT EXISTS invoices (
+  id SERIAL PRIMARY KEY,
+  patient_id INT NOT NULL REFERENCES patients(id) ON DELETE CASCADE,
+  amount NUMERIC(10,2) NOT NULL,
+  due_date DATE,
+  status VARCHAR(20) DEFAULT 'pending',
+  created_at TIMESTAMPTZ DEFAULT now()
+);
+
 3. Copy `server/.env.example` to `server/.env` and edit `DATABASE_URL` if needed.
 
 ## Installing Dependencies
