@@ -34,6 +34,26 @@ CREATE TABLE IF NOT EXISTS patients (
   created_at  TIMESTAMPTZ DEFAULT now()
 );
 ```
+
+-- Users table for authentication
+CREATE TABLE IF NOT EXISTS users (
+  id SERIAL PRIMARY KEY,
+  username VARCHAR(50) UNIQUE NOT NULL,
+  password_hash TEXT NOT NULL,
+  role VARCHAR(20) NOT NULL,
+  created_at TIMESTAMPTZ DEFAULT now()
+);
+
+-- Appointments table
+CREATE TABLE IF NOT EXISTS appointments (
+  id SERIAL PRIMARY KEY,
+  patient_id INT NOT NULL REFERENCES patients(id) ON DELETE CASCADE,
+  doctor_name VARCHAR(120) NOT NULL,
+  appointment_date TIMESTAMPTZ NOT NULL,
+  reason TEXT,
+  created_at TIMESTAMPTZ DEFAULT now()
+);
+
 3. Copy `server/.env.example` to `server/.env` and edit `DATABASE_URL` if needed.
 
 ## Installing Dependencies

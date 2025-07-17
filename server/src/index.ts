@@ -4,6 +4,8 @@ import bodyParser from "body-parser";
 import dotenv from "dotenv";
 
 import patientRoutes from "./routes/patients";
+import authRoutes from "./routes/auth";
+import appointmentRoutes from "./routes/appointments";
 
 dotenv.config();
 
@@ -18,6 +20,8 @@ app.get("/", (_req, res) => {
 });
 
 app.use("/api/patients", patientRoutes);
+app.use("/api/auth", authRoutes);
+app.use("/api/appointments", appointmentRoutes);
 
 app.listen(PORT, () => {
   /* eslint-disable no-console */

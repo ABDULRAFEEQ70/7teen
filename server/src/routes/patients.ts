@@ -1,10 +1,14 @@
 import { Router } from "express";
 import pool from "../db";
+import { authenticate, authorize } from "../middleware/auth";
 
 const router = Router();
 
+// Apply authentication to all routes in this router
+router.use(authenticate);
+
 // Create a new patient
-router.post("/", async (req, res) => {
+router.post("/", authorize(["admin", "receptionist"]), async (req, res) => {
   const {
     firstName,
     lastName,
