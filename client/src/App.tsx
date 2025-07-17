@@ -7,6 +7,9 @@ import Dashboard from "./pages/Dashboard";
 import StaffPage from "./pages/StaffPage";
 import RecordsPage from "./pages/RecordsPage";
 import BillingPage from "./pages/BillingPage";
+import InventoryPage from "./pages/InventoryPage";
+import PharmacyPage from "./pages/PharmacyPage";
+import ReportsPage from "./pages/ReportsPage";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { AuthProvider, useAuth } from "./AuthContext";
 
@@ -108,6 +111,39 @@ function AppRoutes() {
           <Protected>
             <Layout>
               <BillingPage />
+            </Layout>
+          </Protected>
+        }
+      />
+
+      <Route
+        path="/inventory"
+        element={
+          <Protected>
+            <Layout>
+              <InventoryPage />
+            </Layout>
+          </Protected>
+        }
+      />
+
+      <Route
+        path="/pharmacy"
+        element={
+          <Protected>
+            <Layout>
+              <PharmacyPage />
+            </Layout>
+          </Protected>
+        }
+      />
+
+      <Route
+        path="/reports"
+        element={
+          <Protected>
+            <Layout>
+              <ReportsPage />
             </Layout>
           </Protected>
         }

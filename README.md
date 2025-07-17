@@ -81,6 +81,30 @@ CREATE TABLE IF NOT EXISTS invoices (
   amount NUMERIC(10,2) NOT NULL,
   due_date DATE,
   status VARCHAR(20) DEFAULT 'pending',
+  payment_method VARCHAR(30),
+  paid_at TIMESTAMPTZ,
+  created_at TIMESTAMPTZ DEFAULT now()
+);
+
+-- Inventory table
+CREATE TABLE IF NOT EXISTS inventory (
+  id SERIAL PRIMARY KEY,
+  name VARCHAR(120) NOT NULL,
+  quantity INT NOT NULL,
+  unit VARCHAR(20),
+  threshold INT DEFAULT 0,
+  updated_at TIMESTAMPTZ DEFAULT now()
+);
+
+-- Prescriptions table
+CREATE TABLE IF NOT EXISTS prescriptions (
+  id SERIAL PRIMARY KEY,
+  patient_id INT NOT NULL REFERENCES patients(id) ON DELETE CASCADE,
+  drug_name VARCHAR(120) NOT NULL,
+  dosage VARCHAR(120),
+  instructions TEXT,
+  status VARCHAR(20) DEFAULT 'pending',
+  dispensed_at TIMESTAMPTZ,
   created_at TIMESTAMPTZ DEFAULT now()
 );
 

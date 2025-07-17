@@ -27,6 +27,9 @@ const navItems: NavItem[] = [
   { label: "Staff", path: "/staff" },
   { label: "Records", path: "/records" },
   { label: "Billing", path: "/billing" },
+  { label: "Inventory", path: "/inventory" },
+  { label: "Pharmacy", path: "/pharmacy" },
+  { label: "Reports", path: "/reports" },
 ];
 
 export default function Layout({ children }: { children: React.ReactNode }) {

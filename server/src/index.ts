@@ -9,6 +9,8 @@ import appointmentRoutes from "./routes/appointments";
 import staffRoutes from "./routes/staff";
 import recordRoutes from "./routes/records";
 import billingRoutes from "./routes/billing";
+import inventoryRoutes from "./routes/inventory";
+import pharmacyRoutes from "./routes/pharmacy";
 
 dotenv.config();
 
@@ -28,6 +30,8 @@ app.use("/api/appointments", appointmentRoutes);
 app.use("/api/staff", staffRoutes);
 app.use("/api/records", recordRoutes);
 app.use("/api/billing", billingRoutes);
+app.use("/api/inventory", inventoryRoutes);
+app.use("/api/pharmacy", pharmacyRoutes);
 
 app.listen(PORT, () => {
   /* eslint-disable no-console */

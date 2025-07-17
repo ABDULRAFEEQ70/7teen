@@ -11,25 +11,26 @@ import {
 } from "@mui/material";
 import axios from "axios";
 
-interface Invoice {
+interface Prescription {
   id: number;
   patient_id: number;
   first_name: string;
   last_name: string;
-  amount: string;
+  drug_name: string;
+  dosage: string;
+  instructions: string;
   status: string;
-  due_date: string;
 }
 
-export default function BillingPage() {
-  const [invoices, setInvoices] = useState<Invoice[]>([]);
+export default function PharmacyPage() {
+  const [prescriptions, setPrescriptions] = useState<Prescription[]>([]);
   const [loading, setLoading] = useState(false);
 
   const fetchData = async () => {
     setLoading(true);
     try {
-      const { data } = await axios.get("http://localhost:4000/api/billing");
-      setInvoices(data);
+      const { data } = await axios.get("http://localhost:4000/api/pharmacy");
+      setPrescriptions(data);
     } catch (e) {
       console.error(e);
     } finally {
@@ -41,11 +42,9 @@ export default function BillingPage() {
     fetchData();
   }, []);
 
-  const pay = async (id: number) => {
+  const dispense = async (id: number) => {
     try {
-      await axios.post(`http://localhost:4000/api/billing/${id}/pay`, {
-        paymentMethod: "cash",
-      });
+      await axios.post(`http://localhost:4000/api/pharmacy/${id}/dispense`);
       fetchData();
     } catch (e) {
       console.error(e);
@@ -55,7 +54,7 @@ export default function BillingPage() {
   return (
     <div>
       <Typography variant="h5" gutterBottom>
-        Billing
+        Pharmacy
       </Typography>
       {loading ? (
         <CircularProgress />
@@ -64,25 +63,29 @@ export default function BillingPage() {
           <TableHead>
             <TableRow>
               <TableCell>Patient</TableCell>
-              <TableCell>Amount</TableCell>
+              <TableCell>Drug</TableCell>
+              <TableCell>Dosage</TableCell>
               <TableCell>Status</TableCell>
-              <TableCell>Due</TableCell>
               <TableCell>Action</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {invoices.map((inv) => (
-              <TableRow key={inv.id}>
+            {prescriptions.map((p) => (
+              <TableRow key={p.id}>
                 <TableCell>
-                  {inv.first_name} {inv.last_name}
+                  {p.first_name} {p.last_name}
                 </TableCell>
-                <TableCell>{inv.amount}</TableCell>
-                <TableCell>{inv.status}</TableCell>
-                <TableCell>{inv.due_date}</TableCell>
+                <TableCell>{p.drug_name}</TableCell>
+                <TableCell>{p.dosage}</TableCell>
+                <TableCell>{p.status}</TableCell>
                 <TableCell>
-                  {inv.status !== "paid" && (
-                    <Button size="small" variant="contained" onClick={() => pay(inv.id)}>
-                      Mark Paid
+                  {p.status !== "dispensed" && (
+                    <Button
+                      size="small"
+                      variant="contained"
+                      onClick={() => dispense(p.id)}
+                    >
+                      Dispense
                     </Button>
                   )}
                 </TableCell>
