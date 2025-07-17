@@ -13,6 +13,8 @@ import {
   TableCell,
 } from "@mui/material";
 import axios from "axios";
+import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import { TextField as MuiTextField } from "@mui/material";
 
 interface Staff {
   id: number;
@@ -25,6 +27,11 @@ interface Staff {
 
 export default function StaffPage() {
   const [staffList, setStaffList] = useState<Staff[]>([]);
+  const [total, setTotal] = useState(0);
+  const [page, setPage] = useState(0);
+  const [pageSize, setPageSize] = useState(10);
+  const [search, setSearch] = useState("");
+
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [role, setRole] = useState("doctor");
@@ -35,8 +42,11 @@ export default function StaffPage() {
 
   const fetchStaff = async () => {
     try {
-      const { data } = await axios.get("http://localhost:4000/api/staff");
+      const { data, headers } = await axios.get("http://localhost:4000/api/staff", {
+        params: { page: page + 1, limit: pageSize, q: search },
+      });
       setStaffList(data);
+      setTotal(Number(headers["x-total-count"] || data.length));
     } catch (err) {
       console.error(err);
     }
@@ -44,7 +54,8 @@ export default function StaffPage() {
 
   useEffect(() => {
     fetchStaff();
-  }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [page, pageSize, search]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -70,6 +81,19 @@ export default function StaffPage() {
       setSuccess(false);
     }
   };
+
+  const columns: GridColDef[] = [
+    { field: "id", headerName: "ID", width: 70 },
+    {
+      field: "name",
+      headerName: "Name",
+      flex: 1,
+      valueGetter: (p) => `${p.row.first_name} ${p.row.last_name}`,
+    },
+    { field: "role", headerName: "Role", width: 120 },
+    { field: "phone", headerName: "Phone", width: 140 },
+    { field: "email", headerName: "Email", flex: 1 },
+  ];
 
   return (
     <div>
@@ -125,31 +149,36 @@ export default function StaffPage() {
         </Stack>
       </form>
 
-      <Typography variant="h6" sx={{ mt: 4 }}>
+      <Typography variant="h6" sx={{ mt: 4, mb:1 }}>
         Staff List
       </Typography>
-      <Table size="small">
-        <TableHead>
-          <TableRow>
-            <TableCell>Name</TableCell>
-            <TableCell>Role</TableCell>
-            <TableCell>Phone</TableCell>
-            <TableCell>Email</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {staffList.map((s) => (
-            <TableRow key={s.id}>
-              <TableCell>
-                {s.first_name} {s.last_name}
-              </TableCell>
-              <TableCell>{s.role}</TableCell>
-              <TableCell>{s.phone}</TableCell>
-              <TableCell>{s.email}</TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
+      <MuiTextField
+        size="small"
+        placeholder="Search…"
+        value={search}
+        onChange={(e) => {
+          setSearch(e.target.value);
+          setPage(0);
+        }}
+        sx={{ mb: 1 }}
+      />
+      <div style={{ height: 400, width: "100%" }}>
+        <DataGrid
+          rows={staffList}
+          columns={columns}
+          pagination
+          paginationMode="server"
+          rowCount={total}
+          page={page}
+          pageSize={pageSize}
+          onPageChange={(newPage) => setPage(newPage)}
+          onPageSizeChange={(newSize) => {
+            setPageSize(newSize);
+            setPage(0);
+          }}
+          rowsPerPageOptions={[5, 10, 20]}
+        />
+      </div>
     </div>
   );
 }

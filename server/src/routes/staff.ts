@@ -1,14 +1,27 @@
 import { Router } from "express";
 import pool from "../db";
 import { authenticate, authorize } from "../middleware/auth";
+import { parsePagination } from "../utils/pagination";
 
 const router = Router();
 router.use(authenticate);
 
 // List staff
-router.get("/", authorize(["admin"]), async (_req, res) => {
+router.get("/", authorize(["admin"]), async (req, res) => {
   try {
-    const { rows } = await pool.query("SELECT * FROM staff ORDER BY created_at DESC");
+    const { limit, offset, q } = parsePagination(req.query);
+    const search = `%${q}%`;
+    const totalRes = await pool.query(
+      `SELECT count(*) FROM staff WHERE ($1 = '%%' OR first_name ILIKE $1 OR last_name ILIKE $1 OR role ILIKE $1)`,
+      [search]
+    );
+    const total = parseInt(totalRes.rows[0].count, 10);
+    const { rows } = await pool.query(
+      `SELECT * FROM staff WHERE ($1 = '%%' OR first_name ILIKE $1 OR last_name ILIKE $1 OR role ILIKE $1)
+       ORDER BY created_at DESC LIMIT $2 OFFSET $3`,
+      [search, limit, offset]
+    );
+    res.setHeader("X-Total-Count", total.toString());
     res.json(rows);
   } catch (error) {
     console.error(error);
