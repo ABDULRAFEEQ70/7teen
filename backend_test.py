@@ -46,7 +46,9 @@ class HospitalAPITester:
                 "name": "Dr. Michael Smith",
                 "role": "doctor",
                 "phone": "+1-555-0102",
-                "address": "456 Cardiology Wing, Healthcare City"
+                "address": "456 Cardiology Wing, Healthcare City",
+                "date_of_birth": "1975-08-22T00:00:00",
+                "emergency_contact": "+1-555-8888 (Sister: Lisa Smith)"
             },
             {
                 "email": "neuro.davis@cityhospital.com",
@@ -54,21 +56,27 @@ class HospitalAPITester:
                 "name": "Dr. Emily Davis",
                 "role": "doctor", 
                 "phone": "+1-555-0103",
-                "address": "789 Neurology Dept, Healthcare City"
+                "address": "789 Neurology Dept, Healthcare City",
+                "date_of_birth": "1982-12-03T00:00:00",
+                "emergency_contact": "+1-555-7777 (Husband: Mark Davis)"
             },
             {
                 "email": "nurse.wilson@cityhospital.com",
                 "password": "NursePass123!",
                 "name": "Jennifer Wilson",
                 "role": "nurse",
-                "phone": "+1-555-0104"
+                "phone": "+1-555-0104",
+                "date_of_birth": "1985-03-18T00:00:00",
+                "emergency_contact": "+1-555-6666 (Mother: Patricia Wilson)"
             },
             {
                 "email": "reception@cityhospital.com",
                 "password": "RecepPass123!",
                 "name": "Maria Garcia",
                 "role": "receptionist",
-                "phone": "+1-555-0105"
+                "phone": "+1-555-0105",
+                "date_of_birth": "1990-07-25T00:00:00",
+                "emergency_contact": "+1-555-5555 (Father: Carlos Garcia)"
             },
             {
                 "email": "john.patient@email.com",
@@ -76,7 +84,9 @@ class HospitalAPITester:
                 "name": "John Anderson",
                 "role": "patient",
                 "phone": "+1-555-0201",
-                "address": "321 Oak Street, Patient City"
+                "address": "321 Oak Street, Patient City",
+                "date_of_birth": "1988-11-12T00:00:00",
+                "emergency_contact": "+1-555-4444 (Wife: Sarah Anderson)"
             },
             {
                 "email": "mary.patient@email.com",
@@ -84,7 +94,9 @@ class HospitalAPITester:
                 "name": "Mary Thompson",
                 "role": "patient",
                 "phone": "+1-555-0202",
-                "address": "654 Pine Avenue, Patient City"
+                "address": "654 Pine Avenue, Patient City",
+                "date_of_birth": "1992-04-08T00:00:00",
+                "emergency_contact": "+1-555-3333 (Brother: Tom Thompson)"
             }
         ]
         
