@@ -36,7 +36,9 @@ class HospitalAPITester:
                 "name": "Dr. Sarah Johnson",
                 "role": "admin",
                 "phone": "+1-555-0101",
-                "address": "123 Medical Center Dr, Healthcare City"
+                "address": "123 Medical Center Dr, Healthcare City",
+                "date_of_birth": "1980-05-15T00:00:00",
+                "emergency_contact": "+1-555-9999 (Spouse: Robert Johnson)"
             },
             {
                 "email": "cardio.smith@cityhospital.com", 
